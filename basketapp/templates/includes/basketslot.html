@@ -1,0 +1,11 @@
+<div class="basket-slot">
+    <a href='{{ slot.product.get_absolute_url }}' class="product-name">{{ slot.product.name }}</a>
+    <div class="product-price price">{{ slot.product.price }}</div>
+    <div class="quantity-box">
+        <a href="{% url 'basketapp:remove_product' slot.product.pk %}" class="basket-ctrl icon-circle-with-minus"></a>
+        <input type="number" name="{{ slot.pk }}_quantity" id="{{ slot.pk }}_quantity" readonly value="{{ slot.quantity }}">
+        <a href="{% url 'basketapp:add_product' slot.product.pk %}" class="basket-ctrl icon-circle-with-plus"></a>
+    </div>
+    <div class="slot-cost price">{{ slot.cost|floatformat:2 }}</div>
+    <a href="{% url 'basketapp:delete_slot' slot.pk %}" class="basket-ctrl icon-erase"></a>
+</div>

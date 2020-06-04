@@ -1,0 +1,19 @@
+<nav id="top-menu">
+    <a href="{% url 'mainapp:index' %}" class="top-menu-item{% if request.resolver_match.namespace == 'mainapp' and request.resolver_match.url_name == 'index' %} active{% endif %}">Главная</a>
+    <a href="{% url 'mainapp:catalog:index' %}" class="top-menu-item{% if request.resolver_match.namespace == 'mainapp:catalog' %} active{% endif %}">Каталог</a>
+    {% if request.user.is_authenticated %}
+        {% if request.user.is_superuser %}
+        <a href="{% url 'adminapp:index' %}" class="top-menu-item">Администрирование</a>
+        {% endif %}
+    <a href="{% url 'authapp:index' %}" class="top-menu-item{% if request.resolver_match.namespace == 'authapp' and request.resolver_match.url_name == 'index' %} active{% endif %}">Профиль</a>
+    <a href="{% url 'authapp:logout' %}" class="top-menu-item{% if request.resolver_match.namespace == 'authapp' and request.resolver_match.url_name == 'logout' %} active{% endif %}">Выйти</a>
+    {% else %}
+    <a href="{% url 'authapp:login' %}" class="top-menu-item{% if request.resolver_match.namespace == 'authapp' and request.resolver_match.url_name == 'login' %} active{% endif %}">Войти</a>
+    <a href="{% url 'authapp:signup' %}" class="top-menu-item{% if request.resolver_match.namespace == 'authapp' and request.resolver_match.url_name == 'signup' %} active{% endif %}">Регистрация</a>
+    {% endif %}
+    <a href="{% url 'basketapp:index' %}" class="top-menu-item{% if request.resolver_match.namespace == 'basketapp' and request.resolver_match.url_name == 'index' %} active{% endif %}">
+        <i class="icon-shopping-cart"></i>Корзинко
+        <span id="basket-informer"{% if basket.total.slots %} style="display: block;"{% endif %}>{{ basket.total.slots }}</span>
+    </a>
+    <a href="{% url 'mainapp:contacts' %}" class="top-menu-item{% if request.resolver_match.namespace == 'mainapp' and request.resolver_match.url_name == 'contacts' %} active{% endif %}">Контакты</a>
+</nav>

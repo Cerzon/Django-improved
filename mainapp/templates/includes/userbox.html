@@ -1,0 +1,6 @@
+<section class="user-box">
+    <h3>{{ object.occupation }}</h3>
+    <h4>{{ object.full_name }}</h4>
+    <figure class="userpic"><img src="{% if object.userpic %}{{ object.userpic.url }}{% else %}/media/userpic/no_ava.png{% endif %}" alt="{{ object.short_name }}"></figure>
+    <p class="quotes">{{ object.quote.text|safe }}</p>
+</section>

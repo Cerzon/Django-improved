@@ -1,0 +1,6 @@
+<nav id="top-menu">
+    <a href="{% url 'adminapp:user:list' %}" class="top-menu-item{% if request.resolver_match.namespace == 'adminapp:user' %} active{% endif %}">Пользователи</a>
+    <a href="{% url 'adminapp:category:list' %}" class="top-menu-item{% if request.resolver_match.namespace == 'adminapp:category' %} active{% endif %}">Категории</a>
+    <a href="{% url 'adminapp:product:list' %}" class="top-menu-item{% if request.resolver_match.namespace == 'adminapp:product' %} active{% endif %}">Товары</a>
+    <a href="{% url 'mainapp:index' %}" class="top-menu-item">Перейти на сайт</a>
+</nav>

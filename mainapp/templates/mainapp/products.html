@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block page_content %}
+{% if popular %}
+<div class="product-line">
+    <h3>Популярные товары</h3>
+    <div class="grid">
+        {% for object in popular %}
+        <div class="col-12 col-sm-6 col-md-4 col-xl-3">
+            {% include 'includes/productpromo.html' %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+<div class="grid">
+    <div class="col-12 col-sm-5 col-md-6 col-lg-4 col-xl-3">
+        <aside id="categories">
+            <h3>Категории</h3>
+            {% include 'includes/categories_menu.html' %}
+        </aside>
+    </div>
+    <div class="col-12 col-sm-7 col-md-6 col-lg-8 col-xl-9">
+        <div class="grid">
+        {% if paginated %}
+            <div class="paginator col-12">
+                {% if page_prev_url %}
+                <a href="{{ page_prev_url }}"><i class="icon-chevron-with-circle-left"></i></a>
+                {% endif %}
+                <p>Страница {{ object_list.number }} из {{ object_list.paginator.num_pages }}</p>
+                {% if page_next_url %}
+                <a href="{{ page_next_url }}"><i class="icon-chevron-with-circle-right"></i></a>
+                {% endif %}
+            </div>
+        {% endif %}
+        {% for object in object_list %}
+            <div class="col-12 col-lg-6 col-xl-4">
+            {% include 'includes/productbox.html' %}
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock page_content %}
+
+{% load static %}
+{% block scripts %}
+<script src="{% static 'js/product_controls.js' %}"></script>
+{% endblock scripts %}

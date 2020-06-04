@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block page_content %}
+<div class="hwc">
+    {% include 'includes/productbox.html' %}
+</div>
+{% if recomend %}
+<div class="product-line">
+    <h3>Рекомендуем также</h3>
+    <div class="grid">
+        {% for object in recomend %}
+        <div class="col-12 col-sm-6 col-md-4 col-xl-3">
+            {% include 'includes/productpromo.html' %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+{% endblock page_content %}
+
+{% load static %}
+{% block scripts %}
+<script src="{% static 'js/product_controls.js' %}"></script>
+{% endblock scripts %}

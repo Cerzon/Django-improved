@@ -1,0 +1,20 @@
+<section class="product-box">
+    <figure class="productpic">
+        <a href="{{ object.get_absolute_url }}">
+                <img src="{% if object.image %}{{ object.image.url }}{% else %}/media/product_img/no_img.png{% endif %}" alt="{{ object.name }}">
+        </a>
+    </figure>
+    <h4><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></h4>
+    <p class="description">{{ object.description|safe }}</p>
+    <p class="price">{{ object.price }}</p>
+    <a href="{% url 'basketapp:add_product' object.pk %}" class="basket-ctrl icon-shopping-bag">Купить</a>
+    <h5>Отзывы ({{ object.feedback.all|length }}):</h5>
+    <div class="feedback">
+        {% for quote in object.feedback.all %}
+        <figure class="userpic"><img src="{% if quote.author.userpic %}{{ quote.author.userpic.url }}{% else %}/media/userpic/no_ava.png{% endif %}" alt="{{ quote.author.short_name }}"></figure>
+        <p class="quotes">{{ quote.text|safe }}</p>
+        {% empty %}
+        <p class="info-msg">Отзывов пока нет</p>
+        {% endfor %}
+    </div>
+</section>

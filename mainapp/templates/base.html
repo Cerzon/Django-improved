@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page_title|default:'Unknown page' }}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block styles %}
+    {% endblock styles %}
+</head>
+<body>
+    <header id="page-header">
+        <div id="top-ribbon">
+            <div class="container">
+                <div id="logo-place"></div>
+                {% include top_menu %}
+            </div>
+        </div>
+        <div class="container">
+            <h1>{{ site_name }}</h1>
+            {% if show_quote %}
+            <p class="quotes">{{ header_quote.text|safe }}</p>
+            {% endif %}
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <h2>{{ content_header }}</h2>
+            
+            {% block page_content %}
+            {% endblock page_content %}
+
+        </div>
+    </main>
+    <footer id="page-footer">
+        <div class="container">
+            <div class="grid">
+                <div class="col-12 col-md-6 order-md-2" id="terms-conditions"><a href="#">Термины и определения</a></div>
+                <div class="col-12 col-md-6 order-md-1" id="copyleft">&copy;&#160;Все права нарушены {% now 'Y' %}</div>
+            </div>
+        </div>
+    </footer>
+</body>
+{% block scripts %}
+{% endblock scripts %}
+</html>

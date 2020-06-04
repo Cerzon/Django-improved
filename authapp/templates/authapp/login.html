@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block page_content %}
+<form action="{% url 'authapp:login' %}" method="post" class='twc'>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Войти" class="form-control">
+</form>
+{% endblock page_content %}
+    

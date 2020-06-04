@@ -1,0 +1,49 @@
+{
+    "init": {
+        "app_label": "authapp",
+        "model_name": "HoHooUser",
+        "related": []
+    },
+    "objects": [
+        {
+            "username": "ilf_petrov",
+            "password": "vortepfli",
+            "occupation": "Авторы",
+            "first_name": "Илья Ильф",
+            "middle_name": "и",
+            "last_name": "Евгений Петров",
+            "userpic": "",
+            "public": false
+        },
+        {
+            "username": "bender_o",
+            "password": "benderredneb",
+            "occupation": "Учредитель",
+            "first_name": "Остап",
+            "middle_name": "Ибрагимович",
+            "last_name": "Бендер",
+            "userpic": "userpic/up_bender.jpg",
+            "public": true
+        },
+        {
+            "username": "balag_s",
+            "password": "balaggalab",
+            "occupation": "Уполномоченный по копытам",
+            "first_name": "Шура",
+            "middle_name": "",
+            "last_name": "Балаганов",
+            "userpic": "userpic/up_balag.jpg",
+            "public": true
+        },
+        {
+            "username": "panik_m",
+            "password": "panikkinap",
+            "occupation": "Курьер",
+            "first_name": "Михаил",
+            "middle_name": "Самуэлевич",
+            "last_name": "Паниковский",
+            "userpic": "userpic/up_panik.jpg",
+            "public": true
+        }
+    ]
+}

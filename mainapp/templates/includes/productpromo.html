@@ -1,0 +1,8 @@
+<section class="product-promo">
+    <img src="{% if object.image %}{{ object.image.url }}{% else %}/media/product_img/no_img.png{% endif %}" alt="{{ object.name }}">
+    <div class="promo-cover">
+        <a href="{% url 'basketapp:add_product' object.pk %}" class="basket-ctrl round-button"><i class="icon-shopping-bag round-button-content"></i></a>
+        <a href="{{ object.get_absolute_url }}"><h4>{{ object.name }}</h4></a>
+        <p class="description">{{ object.description|safe|truncatewords_html:20 }}</p>
+    </div>
+</section>

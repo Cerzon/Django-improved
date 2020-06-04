@@ -1,0 +1,48 @@
+{
+    "init": {
+        "app_label": "mainapp",
+        "model_name": "Product",
+        "related": [
+            {
+                "field": "category",
+                "app_label": "mainapp",
+                "model_name": "Category",
+                "key": "slug"
+            }
+        ]
+    },
+    "objects": [
+        {
+            "slug": "kettlebell",
+            "image": "product_img/kettlebell.jpg",
+            "name": "Гири тов.Корейко",
+            "category": "sport_equip",
+            "description": "Гири чугунные полуторапудовые.",
+            "price": 7.40
+        },
+        {
+            "slug": "gasmask",
+            "image": "product_img/gasmask.jpg",
+            "name": "Противогаз гражданский",
+            "category": "personal_def",
+            "description": "Противогаз для применения во время учений по гражданской обороне.",
+            "price": 3.62
+        },
+        {
+            "slug": "solemnset",
+            "image": "product_img/solemnset.jpg",
+            "name": "Торжественный комплект",
+            "category": "creativity_goods",
+            "description": "Незаменимое пособие для сочинения юбилейных статей, табельных фельетонов, а также парадных стихотворений, од и тропарей",
+            "price": 25.00
+        },
+        {
+            "slug": "turkish_typewriter",
+            "image": "product_img/typewriter.jpg",
+            "name": "Машинка с турецким акцентом",
+            "category": "stationery",
+            "description": "Старая пишущая машинка &quot;Адлер&quot;, в которой не хватает буквы &quot;е&quot;, и ее приходится заменять буквой &quot;э&quot;.",
+            "price": 35.50
+        }
+    ]
+}

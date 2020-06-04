@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block page_content %}
+    {% if filters %}
+    {% include 'adminapp/includes/inc_filter_list.html' %}
+    {% endif %}
+    <a href="{% url links.create.0 %}" class="button-link">{{ links.create.1 }}</a>
+    <ul class="item-list">
+    {% for object in object_list %}
+        <li class="{% if object.is_active %}item-active{% else %}deleted{% endif %}"><a href="{% url links.update.0 object.pk %}">{{ object }}</a></li>
+    {% empty %}
+        <li>Нет объектов для отображения</li>
+    {% endfor %}
+    </ul>
+{% endblock page_content %}
+    

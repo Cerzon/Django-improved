@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block page_content %}
+<div id="basket-content">
+{% for slot in slots %}
+    {% include 'includes/basketslot.html' %}
+{% empty %}
+    <p class="info-msg">Корзина пуста</p>
+{% endfor %}
+</div>
+{% if slots %}
+<div id="basket-total">
+    <p class="field-name">Всего наименований:</p>
+    <p id="total-slots" class="field-value">{{ basket.total.slots }}</p>
+    <p class="field-name">Единиц товара:</p>
+    <p id="total-items" class="field-value">{{ basket.total.items }}</p>
+    <p class="field-name">На общую сумму:</p>
+    <p id="total-cost" class="field-value price">{{ basket.total.cost|floatformat:2 }}</p>
+</div>
+{% endif %}
+{% endblock page_content %}
+
+{% load static %}
+{% block scripts %}
+<script src="{% static 'js/basket_controls.js' %}"></script>
+{% endblock scripts %}

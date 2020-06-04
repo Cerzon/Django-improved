@@ -1,0 +1,11 @@
+
+<ul>
+    <li><a href="{% url 'mainapp:catalog:index' %}"{% if not request.resolver_match.kwargs.category %} class="active"{% endif %}>
+        Все товары
+    </a></li>
+    {% for category in category_list %}
+    <li><a href="{% url 'mainapp:catalog:category' category.slug %}"{% if request.resolver_match.kwargs.category == category.slug %} class="active"{% endif %}>
+        {{ category.name }}
+    </a></li>
+    {% endfor %}
+</ul>
