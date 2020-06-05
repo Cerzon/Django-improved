@@ -1,10 +1,10 @@
 <ul class="filter-list">
-    <li>
+    <li{% if not request.resolver_match.kwargs.pk %} class="active"{% endif %}>
         <a href="{% url links.list.0 %}">Все</a>
     </li>
     {% for item in filters %}
-    <li>
-        <a href="{% url links.filter.0 item.pk %}">{{ item.name }}</a>
+    <li{% if request.resolver_match.kwargs.pk == item.pk %} class="active"{% endif %}>
+        <a href="{% url links.filter.0 item.pk %}" class="icon-filter">{{ item.name }}</a>
     </li>
     {% endfor %}
 </ul>

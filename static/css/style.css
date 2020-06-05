@@ -34,8 +34,8 @@
   font-style: normal;
   font-display: block;
 }
-[class^="icon-"],
-[class*=" icon-"] {
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
   font-family: "icomoon";
   font-style: normal;
   font-weight: normal;
@@ -44,6 +44,9 @@
   line-height: 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+.icon-filter:before {
+  content: "\e90c";
 }
 .icon-chevron-with-circle-right:before {
   content: "\e90a";
@@ -159,6 +162,10 @@ em,
 strong {
   display: inline;
 }
+:focus,
+:active {
+  outline: none;
+}
 html {
   font-family: "Roboto", sans-serif;
   font-size: 16px;
@@ -243,12 +250,12 @@ body {
   border-bottom: 3px solid transparent;
   white-space: nowrap;
 }
+#top-menu a.top-menu-item.active {
+  border-bottom-color: #fbfbfb;
+}
 #top-menu a.top-menu-item i {
   display: inline-block;
   margin-right: 0.4em;
-}
-#top-menu a.top-menu-item.active {
-  border-bottom-color: #fbfbfb;
 }
 #basket-informer {
   position: absolute;
@@ -432,7 +439,6 @@ main h2 {
 .product-box a.icon-shopping-bag {
   display: inline-block;
   margin: 0 auto 1.5em auto;
-  font-family: "Roboto", sans-serif;
   font-size: 0.9em;
   text-transform: uppercase;
   padding: 0.6em 1.1em;
@@ -442,7 +448,6 @@ main h2 {
   border-radius: 0.5em;
 }
 .product-box a.icon-shopping-bag::before {
-  font-family: "icomoon";
   margin-right: 0.6em;
 }
 .product-box a.icon-shopping-bag:hover {
@@ -541,7 +546,8 @@ a.round-button {
   display: inline-block;
   background-color: #fbfbfb;
   color: #6c6c6c;
-  line-height: 1.8em;
+  padding-top: 0.4em;
+  padding-bottom: 0.2em;
   width: 1.8em;
   border-radius: 1em;
   box-shadow: 0 0.1em 0.2em 0 #212121;
@@ -562,16 +568,33 @@ a.round-button {
 label {
   color: #6c6c6c;
 }
-.form-control {
-  font-size: 1rem;
-  width: 100%;
+select,
+textarea,
+input {
   margin-top: 0.4em;
   margin-bottom: 0.8em;
 }
+.admin-form {
+  font-size: 1rem;
+  margin-top: 2em;
+  margin-bottom: 2.6em;
+}
+.admin-form select,
+.admin-form textarea,
+.admin-form input[type="text"],
+.admin-form input[type="number"],
+.admin-form input[type="password"],
+.admin-form input[type="email"],
+.form-control {
+  width: 100%;
+}
+select,
+textarea,
 input[type="text"],
 input[type="number"],
 input[type="password"],
 input[type="email"] {
+  font-size: 1rem;
   border-bottom: 1px solid #a2a2a2;
   padding: 0.3em 0.4em 0.2em 0.4em;
   box-sizing: border-box;
@@ -580,6 +603,7 @@ input[type="email"] {
 }
 input[type="submit"],
 a.button-link {
+  font-size: 1rem;
   display: inline-block;
   border: 3px double #a2a2a2;
   padding: 0.6em 1.2em;
@@ -609,12 +633,6 @@ form ul.errorlist {
   font-size: 1rem;
   margin-bottom: 2em;
 }
-#basket-content .basket-slot {
-  border-top: 1px solid #ebebeb;
-}
-#basket-content .basket-slot:last-child {
-  border-bottom: 1px solid #ebebeb;
-}
 #basket-content p.info-msg {
   font-size: 2em;
   margin: 2em 0;
@@ -629,6 +647,10 @@ form ul.errorlist {
   font-size: 1rem;
   position: relative;
   padding: 0.8em 0;
+  border-top: 1px solid #ebebeb;
+}
+.basket-slot:last-child {
+  border-bottom: 1px solid #ebebeb;
 }
 .basket-slot .product-name {
   box-sizing: border-box;
@@ -711,14 +733,59 @@ p.info-msg {
   font-weight: 100;
   color: #212121;
 }
+ul.item-list {
+  padding: 0;
+  margin: 2em 0;
+  list-style: none;
+}
+ul.item-list li {
+  margin: 0;
+  padding: 0.6em 1em;
+}
+ul.item-list li.item-active {
+  background-color: #ebebeb;
+  border-top: 1px solid #fbfbfb;
+  border-bottom: 1px solid #bcbcbc;
+  color: #6c6c6c;
+}
+ul.item-list li.deleted {
+  background-color: #bcbcbc;
+  border-top: 1px solid #ebebeb;
+  border-bottom: 1px solid #a2a2a2;
+  color: #fbfbfb;
+}
+ul.filter-list {
+  padding: 0;
+  margin: 2em 0;
+  list-style: none;
+}
+ul.filter-list li {
+  margin: 0;
+  padding: 0.4em 2em;
+  color: #6c6c6c;
+}
+ul.filter-list li.active {
+  color: #212121;
+}
+ul.filter-list a.icon-filter {
+  margin-left: -1.4em;
+}
+ul.filter-list a.icon-filter::before {
+  margin-right: 0.4em;
+}
 p.icon-location-pin,
 a.icon-mail {
   margin-bottom: 1.2em;
-  font-family: "Roboto", sans-serif;
   font-size: 1.2rem;
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
+}
+p.icon-location-pin::before,
+a.icon-mail::before {
+  font-size: 1.2em;
+  margin-right: 0.3em;
+  color: #212121;
 }
 p.icon-location-pin {
   font-weight: 100;
@@ -727,13 +794,6 @@ p.icon-location-pin {
 a.icon-mail {
   font-weight: 400;
   color: #6c6c6c;
-}
-p.icon-location-pin::before,
-a.icon-mail::before {
-  font-family: "icomoon";
-  font-size: 1.2em;
-  margin-right: 0.3em;
-  color: #212121;
 }
 #g-map {
   border: 1px solid #bcbcbc;

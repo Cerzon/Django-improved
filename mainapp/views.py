@@ -7,12 +7,9 @@ from django.shortcuts import render
 from django.urls import reverse
 from authapp.models import HoHooUser
 from .models import Category, Product
-# from django.views.generic import ListView, DetailView
 
 # Create your views here.
 
-# class IndexView(ListView):
-#     template_name = 'mainapp/index.html'
 
 def index(request):
     """ main page view
@@ -35,7 +32,7 @@ def products(request, category=None, page=None):
         'content_header': 'Каталог товаров',
     }
     context['category_list'] = Category.objects.filter(is_active=True)
-    goods = Product.objects.all().select_related()
+    goods = Product.objects.filter(is_active=True).select_related()
     if category:
         goods = goods.filter(category__slug=category)
     if goods:

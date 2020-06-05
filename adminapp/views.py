@@ -64,7 +64,7 @@ class CreateUserView(SuperUserPassesTestMixin, CreateView):
     model = HoHooUser
     form_class = UserRegisterForm
     template_name = 'adminapp/object_update.html'
-    success_url = reverse_lazy('adminapp:user_list')
+    success_url = reverse_lazy('adminapp:user:list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -81,7 +81,7 @@ class UpdateUserView(SuperUserPassesTestMixin, UpdateView):
     model = HoHooUser
     form_class = UserUpdateForm
     template_name = 'adminapp/object_update.html'
-    success_url = reverse_lazy('adminapp:user_list')
+    success_url = reverse_lazy('adminapp:user:list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -97,7 +97,7 @@ class UpdateUserView(SuperUserPassesTestMixin, UpdateView):
 class DeleteUserView(SuperUserPassesTestMixin, DeleteView):
     model = HoHooUser
     template_name = 'adminapp/object_delete.html'
-    success_url = reverse_lazy('adminapp:user_list')
+    success_url = reverse_lazy('adminapp:user:list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -127,7 +127,7 @@ class CreateCategoryView(SuperUserPassesTestMixin, CreateView):
     model = Category
     fields = '__all__'
     template_name = 'adminapp/object_update.html'
-    success_url = reverse_lazy('adminapp:category_list')
+    success_url = reverse_lazy('adminapp:category:list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -144,7 +144,7 @@ class UpdateCategoryView(SuperUserPassesTestMixin, UpdateView):
     model = Category
     fields = '__all__'
     template_name = 'adminapp/object_update.html'
-    success_url = reverse_lazy('adminapp:category_list')
+    success_url = reverse_lazy('adminapp:category:list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -160,7 +160,7 @@ class UpdateCategoryView(SuperUserPassesTestMixin, UpdateView):
 class DeleteCategoryView(SuperUserPassesTestMixin, DeleteView):
     model = Category
     template_name = 'adminapp/object_delete.html'
-    success_url = reverse_lazy('adminapp:category_list')
+    success_url = reverse_lazy('adminapp:category:list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -201,7 +201,7 @@ class CreateProductView(SuperUserPassesTestMixin, CreateView):
     model = Product
     fields = '__all__'
     template_name = 'adminapp/object_update.html'
-    success_url = reverse_lazy('adminapp:product_list')
+    success_url = reverse_lazy('adminapp:product:list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -218,7 +218,7 @@ class UpdateProductView(SuperUserPassesTestMixin, UpdateView):
     model = Product
     fields = '__all__'
     template_name = 'adminapp/object_update.html'
-    success_url = reverse_lazy('adminapp:product_list')
+    success_url = reverse_lazy('adminapp:product:list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -234,7 +234,7 @@ class UpdateProductView(SuperUserPassesTestMixin, UpdateView):
 class DeleteProductView(SuperUserPassesTestMixin, DeleteView):
     model = Product
     template_name = 'adminapp/object_delete.html'
-    success_url = reverse_lazy('adminapp:product_list')
+    success_url = reverse_lazy('adminapp:product:list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

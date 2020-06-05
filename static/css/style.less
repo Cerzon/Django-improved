@@ -12,7 +12,7 @@
     font-display: block;
 }
 
-[class^="icon-"], [class*=" icon-"] {
+[class^="icon-"]:before, [class*=" icon-"]:before {
     font-family: "icomoon";
     font-style: normal;
     font-weight: normal;
@@ -24,6 +24,9 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-filter:before {
+    content: "\e90c";
+}
 .icon-chevron-with-circle-right:before {
     content: "\e90a";
 }
@@ -89,6 +92,10 @@ a, span, em, strong {
     display: inline;
 }
 
+:focus, :active {
+    outline: none;
+}
+
 html {
     font-family: "Roboto", sans-serif;
     font-size: 16px;
@@ -129,22 +136,21 @@ body {
     margin-bottom: 2em;
     font-weight: 400;
     font-style: italic;
-}
-
-.quotes::before {
-    display: block;
-    margin-bottom: 0.1em;
-    text-align: center;
-    content: "\e905";
-    font-family: "icomoon";
-    font-size: 2em;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    &::before {
+        display: block;
+        margin-bottom: 0.1em;
+        text-align: center;
+        content: "\e905";
+        font-family: "icomoon";
+        font-size: 2em;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
 }
 
 #top-ribbon {
@@ -178,13 +184,13 @@ body {
         text-transform: uppercase;
         border-bottom: 3px solid transparent;
         white-space: nowrap;
+        &.active {
+            border-bottom-color: #fbfbfb;
+        }
         i {
             display: inline-block;
             margin-right: 0.4em;
         }
-    }
-    a.top-menu-item.active {
-        border-bottom-color: #fbfbfb;
     }
 }
 
@@ -309,9 +315,9 @@ main {
     li {
         display: block;
         border-top: 1px solid #ebebeb;
-    }
-    li:last-child {
-        border-bottom: 1px solid #ebebeb;
+        &:last-child {
+            border-bottom: 1px solid #ebebeb;
+        }
     }
     a {
         display: block;
@@ -319,9 +325,9 @@ main {
         line-height: 1.5em;
         color: #6c6c6c;
         text-transform: uppercase;
-    }
-    a:hover, a.active {
-        color: #212121;
+        &:hover, &.active {
+            color: #212121;
+        }
     }
 }
 
@@ -365,18 +371,17 @@ main {
         font-size: 1.4em;
         font-weight: 100;
         color: #212121;
-    }
-    p.price::before {
-        content: "Цена:";
-        margin-right: 0.5em;
-        font-size: 0.7em;
-        font-weight: 400;
-        color: #6c6c6c;
+        &::before {
+            content: "Цена:";
+            margin-right: 0.5em;
+            font-size: 0.7em;
+            font-weight: 400;
+            color: #6c6c6c;
+        }
     }
     a.icon-shopping-bag {
         display: inline-block;
         margin: 0 auto 1.5em auto;
-        font-family: "Roboto", sans-serif;
         font-size: 0.9em;
         text-transform: uppercase;
         padding: 0.6em 1.1em;
@@ -384,16 +389,15 @@ main {
         background-color: #a2a2a2;
         border: 3px double #ebebeb;
         border-radius: 0.5em;
-    }
-    a.icon-shopping-bag::before {
-        font-family: "icomoon";
-        margin-right: 0.6em;
-    }
-    a.icon-shopping-bag:hover {
-        border-style: outset;
-    }
-    a.icon-shopping-bag:active {
-        border-style: inset;
+        &::before {
+            margin-right: 0.6em;
+        }
+        &:hover {
+            border-style: outset;
+        }
+        &:active {
+            border-style: inset;
+        }
     }
     p.info-msg {
         font-size: 1.2em;
@@ -479,10 +483,9 @@ main {
             color: #6c6c6c;
         }
     }
-}
-
-.product-promo:hover .promo-cover {
-    top: 0;
+    &:hover .promo-cover {
+        top: 0;
+    }
 }
 
 a.round-button {
@@ -494,7 +497,8 @@ a.round-button {
     display: inline-block;
     background-color: #fbfbfb;
     color: #6c6c6c;
-    line-height: 1.8em;
+    padding-top: 0.4em;
+    padding-bottom: 0.2em;
     width: 1.8em;
     border-radius: 1em;
     box-shadow: 0 0.1em 0.2em 0 #212121;
@@ -517,17 +521,36 @@ label {
     color: #6c6c6c;
 }
 
-.form-control {
-    font-size: 1rem;
-    width: 100%;
+select,
+textarea,
+input {
     margin-top: 0.4em;
     margin-bottom: 0.8em;
 }
 
+.admin-form {
+    font-size: 1rem;
+    margin-top: 2em;
+    margin-bottom: 2.6em;
+}
+
+.admin-form select,
+.admin-form textarea,
+.admin-form input[type="text"],
+.admin-form input[type="number"],
+.admin-form input[type="password"],
+.admin-form input[type="email"],
+.form-control {
+    width: 100%;
+}
+
+select,
+textarea,
 input[type="text"],
 input[type="number"],
 input[type="password"],
 input[type="email"] {
+    font-size: 1rem;
     border-bottom: 1px solid #a2a2a2;
     padding: 0.3em 0.4em 0.2em 0.4em;
     box-sizing: border-box;
@@ -537,6 +560,7 @@ input[type="email"] {
 
 input[type="submit"],
 a.button-link {
+    font-size: 1rem;
     display: inline-block;
     border: 3px double #a2a2a2;
     padding: 0.6em 1.2em;
@@ -557,23 +581,17 @@ span.helptext, form ul {
 
 form ul {
     margin-top:-1.6em;
+    &.errorlist {
+        margin-top: 0.2em;
+        margin-bottom: -0.2em;
+        color: red;
+    }
 }
 
-form ul.errorlist {
-    margin-top: 0.2em;
-    margin-bottom: -0.2em;
-    color: red;
-}
 
 #basket-content {
     font-size: 1rem;
     margin-bottom: 2em;
-    .basket-slot {
-        border-top: 1px solid #ebebeb;
-    }
-    .basket-slot:last-child {
-        border-bottom: 1px solid #ebebeb;
-    }
     p.info-msg {
         font-size: 2em;
         margin: 2em 0;
@@ -590,6 +608,10 @@ form ul.errorlist {
     font-size: 1rem;
     position: relative;
     padding: 0.8em 0;
+    border-top: 1px solid #ebebeb;
+    &:last-child {
+        border-bottom: 1px solid #ebebeb;
+    }
     .product-name {
         box-sizing: border-box;
         width: 45%;
@@ -675,13 +697,59 @@ p.info-msg {
     }
 }
 
+ul.item-list {
+    padding: 0;
+    margin: 2em 0;
+    list-style: none;
+    li {
+        margin: 0;
+        padding: 0.6em 1em;
+        &.item-active {
+            background-color: #ebebeb;
+            border-top: 1px solid #fbfbfb;
+            border-bottom: 1px solid #bcbcbc;
+            color: #6c6c6c;
+        }
+        &.deleted {
+            background-color: #bcbcbc;
+            border-top: 1px solid #ebebeb;
+            border-bottom: 1px solid #a2a2a2;
+            color: #fbfbfb;
+        }
+    }
+}
+
+ul.filter-list {
+    padding: 0;
+    margin: 2em 0;
+    list-style: none;
+    li {
+        margin: 0;
+        padding: 0.4em 2em;
+        color: #6c6c6c;
+        &.active {
+            color: #212121;
+        }
+    }
+    a.icon-filter {
+        margin-left: -1.4em;
+        &::before {
+            margin-right: 0.4em;
+        }
+    }
+}
+
 p.icon-location-pin, a.icon-mail {
     margin-bottom: 1.2em;
-    font-family: "Roboto", sans-serif;
     font-size: 1.2rem;
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
+    &::before {
+        font-size: 1.2em;
+        margin-right: 0.3em;
+        color: #212121;
+    }
 }
 
 p.icon-location-pin {
@@ -692,13 +760,6 @@ p.icon-location-pin {
 a.icon-mail {
     font-weight: 400;
     color: #6c6c6c;
-}
-
-p.icon-location-pin::before, a.icon-mail::before {
-    font-family: "icomoon";
-    font-size: 1.2em;
-    margin-right: 0.3em;
-    color: #212121;
 }
 
 #g-map {
