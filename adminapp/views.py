@@ -79,7 +79,7 @@ class CreateUserView(SuperUserPassesTestMixin, CreateView):
 
 class UpdateUserView(SuperUserPassesTestMixin, UpdateView):
     model = HoHooUser
-    form_class = UserUpdateForm
+    fields = '__all__'
     template_name = 'adminapp/object_update.html'
     success_url = reverse_lazy('adminapp:user:list')
 

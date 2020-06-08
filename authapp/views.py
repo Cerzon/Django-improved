@@ -1,14 +1,19 @@
 """ authapp views
 """
-from django.urls import reverse, reverse_lazy
-from django.shortcuts import render
+from hashlib import sha1
+from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
+from django.shortcuts import render
+from django.template.loader import render_to_string
+from django.urls import reverse, reverse_lazy
+from django.utils.timezone import now
 from django.views.generic.edit import FormView, UpdateView, CreateView
-from .models import HoHooUser
-from .forms import UserRegisterForm, UserLoginForm, UserUpdateForm
+from .forms import UserRegisterForm, UserLoginForm, UserUpdateForm, UserVerifyForm
+from .models import HoHooUser, Token
 
 # Create your views here.
 
@@ -36,12 +41,20 @@ class UserLoginView(FormView):
         return context
 
     def form_valid(self, form):
-        user = authenticate(
-            username=form.cleaned_data['username'],
-            password=form.cleaned_data['password']
-        )
-        login(self.request, user)
-        return super().form_valid(form)
+        user = None
+        try:
+            user = HoHooUser.objects.get(username=form.cleaned_data['username'])
+        except HoHooUser.DoesNotExist:
+            return HttpResponseRedirect(reverse_lazy('authapp:login'))
+        if user.is_active:
+            user = authenticate(
+                username=form.cleaned_data['username'],
+                password=form.cleaned_data['password']
+            )
+            login(self.request, user)
+            return super().form_valid(form)
+        return HttpResponseRedirect(reverse(
+            'authapp:verify_form', kwargs={'username': user.username}))
 
 
 def user_logout(request):
@@ -73,7 +86,6 @@ class UserRegisterView(CreateView):
     """
     template_name = 'authapp/signup.html'
     form_class = UserRegisterForm
-    success_url = reverse_lazy('authapp:index')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -82,9 +94,67 @@ class UserRegisterView(CreateView):
         return context
 
     def get_success_url(self):
-        user = authenticate(
-            username=self.request.POST.get('username'),
-            password=self.request.POST.get('password1')
-        )
-        login(self.request, user)
-        return super().get_success_url()
+        user = self.object
+        user.is_active = False
+        code = sha1(user.username.encode('utf-8'))
+        code.update(str(now()).encode('utf-8'))
+        code = code.hexdigest()
+        user.token = Token(code=code)
+        user.token.save()
+        user.save()
+        subj = 'Рога и Копыта - Подтверждение регистрации'
+        msg = render_to_string(
+            'email/user_verify.html',
+            {'token': user.token, 'user': user, 'host_name': settings.HOST_NAME})
+        mailfrom = settings.DEFAULT_FROM_EMAIL
+        mailto = (user.email,)
+        send_mail(
+            subj, msg, mailfrom, mailto,
+            fail_silently=True, html_message=msg)
+        return reverse(
+            'authapp:verify_form', kwargs={'username': self.object.username})
+
+
+def user_verify(request, code=None, username=None):
+    if code:
+        try:
+            token = Token.objects.get(code=code)
+        except Token.DoesNotExist:
+            token = None
+        except Token.MultipleObjectsReturned:
+            Token.objects.filter(code=code).delete()
+            token = None
+    else:
+        if request.method == "POST":
+            code = request.POST.get('code', None)
+            try:
+                token = Token.objects.get(code=code)
+            except Token.DoesNotExist:
+                token = None
+        else:
+            try:
+                user = HoHooUser.objects.get(username=username)
+            except HoHooUser.DoesNotExist:
+                return HttpResponseRedirect(reverse('authapp:login'))
+            if user.is_active:
+                return HttpResponseRedirect(reverse('authapp:login'))
+            form = UserVerifyForm()
+            context = {
+                'page_title': 'Завершение регистрации: подтверждение адреса Email',
+                'content_header': 'Для завершения регистрации введите код',
+                'form': form,
+                'user': user,
+            }
+            return render(request, 'authapp/verify_form.html', context)
+    if token and token.is_valid():
+        user = token.user
+        if username and username != user.username:
+            # something extremely wrong happened
+            # here must be a cool code to kick that lying ass
+            pass
+        elif not user.is_active:
+            user.is_active = True
+        token.delete()
+        user.save()
+    return HttpResponseRedirect(reverse('authapp:login'))
+    # here can be a code to renew activation token

@@ -106,11 +106,16 @@ AUTH_USER_MODEL = 'authapp.HoHooUser'
 
 LOGIN_URL = 'authapp:login'
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.AllowAllUsersModelBackend',
+]
+
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
+AUTH_PASSWORD_VALIDATORS = []
 if not DEBUG:
-    AUTH_PASSWORD_VALIDATORS = [
+    AUTH_PASSWORD_VALIDATORS += [
         {
             'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
         },
@@ -154,8 +159,25 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Mail stuff
 
 ADMINS = literal_eval(CONF_PARSER.get('mail', 'ADMINS', fallback='[]'))
-
 MANAGERS = literal_eval(CONF_PARSER.get('mail', 'MANAGERS', fallback='[]'))
+
+SERVER_EMAIL = CONF_PARSER.get('mail', 'SERVER_EMAIL', fallback='root@localhost')
+DEFAULT_FROM_EMAIL = CONF_PARSER.get(
+    'mail', 'DEFAULT_FROM_EMAIL', fallback='webmaster@localhost')
+
+EMAIL_BACKEND = CONF_PARSER.get(
+    'mail', 'EMAIL_BACKEND',
+    fallback='django.core.mail.backends.smtp.EmailBackend')
+
+EMAIL_FILE_PATH = CONF_PARSER.get('mail', 'EMAIL_FILE_PATH', fallback=None)
+if EMAIL_FILE_PATH:
+    EMAIL_FILE_PATH = os.path.join(BASE_DIR, EMAIL_FILE_PATH)
+
+EMAIL_HOST = CONF_PARSER.get('mail', 'EMAIL_HOST', fallback='localhost')
+EMAIL_HOST_PASSWORD = CONF_PARSER.get('mail', 'EMAIL_HOST_PASSWORD', fallback='')
+EMAIL_HOST_USER = CONF_PARSER.get('mail', 'EMAIL_HOST_USER', fallback='')
+EMAIL_PORT = CONF_PARSER.getint('mail', 'EMAIL_PORT', fallback=25)
+EMAIL_USE_TLS = CONF_PARSER.getboolean('mail', 'EMAIL_USE_TLS', fallback=False)
 
 # Some other stuff
 
@@ -163,3 +185,7 @@ FILE_UPLOAD_MAX_MEMORY_SIZE = 5242880
 FIRST_DAY_OF_WEEK = 1
 SECURE_SSL_REDIRECT = False
 SITE_ID = 1
+
+HOST_NAME = '127.0.0.1:8000'
+if ALLOWED_HOSTS:
+    HOST_NAME = ALLOWED_HOSTS[0]

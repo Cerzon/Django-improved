@@ -1,7 +1,9 @@
 """ authapp models
 """
-from django.db import models
+from datetime import timedelta
 from django.contrib.auth.models import AbstractUser
+from django.db import models
+from django.utils.timezone import now
 
 # Create your models here.
 
@@ -13,7 +15,6 @@ class HoHooUser(AbstractUser):
     occupation = models.CharField(max_length=60, blank=True, verbose_name='должность')
     phone = models.CharField(max_length=20, blank=True, verbose_name='номер телефона')
     public = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=True, verbose_name='аккаунт активен')
 
     class Meta:
         verbose_name = 'пользователь'
@@ -22,9 +23,11 @@ class HoHooUser(AbstractUser):
     def __str__(self):
         return self.username
 
-    def delete(self):
+    def delete(self, force_remove=False):
         self.is_active = False
         self.save()
+        if force_remove:
+            super().delete()
 
     @property
     def full_name(self):
@@ -41,3 +44,12 @@ class HoHooUser(AbstractUser):
         if result:
             result = result[0]
         return result
+
+
+class Token(models.Model):
+    user = models.OneToOneField(HoHooUser, on_delete=models.CASCADE, primary_key=True)
+    code = models.CharField(max_length=40, verbose_name='код подтверждения')
+    created = models.DateTimeField(auto_now_add=True)
+
+    def is_valid(self):
+        return self.created + timedelta(days=5) > now()

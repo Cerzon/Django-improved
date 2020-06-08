@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block page_content %}
+<p class="info-msg standalone">Код активации отправлен на Email, указанный при регистрации.</p>
+<form action="{% url 'authapp:verify_form' user.username %}" method="POST" class='twc'>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Отправить" class="form-control">
+</form>
+{% endblock page_content %}
+    
