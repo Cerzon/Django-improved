@@ -10,9 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
+import json
 import os
-from configparser import RawConfigParser
 from ast import literal_eval
+from configparser import RawConfigParser
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -49,6 +50,7 @@ INSTALLED_APPS = [
     'quotesapp.apps.QuotesappConfig',
     'basketapp.apps.BasketappConfig',
     'adminapp.apps.AdminappConfig',
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -108,6 +110,7 @@ LOGIN_URL = 'authapp:login'
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.AllowAllUsersModelBackend',
+    'social_core.backends.vk.VKOAuth2',
 ]
 
 # Password validation
@@ -189,3 +192,13 @@ SITE_ID = 1
 HOST_NAME = '127.0.0.1:8000'
 if ALLOWED_HOSTS:
     HOST_NAME = ALLOWED_HOSTS[0]
+
+# Social OAUTH settings
+
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+
+with open(os.path.join(BASE_DIR, '.vscode', 'vk.json')) as vkdata:
+    VK = json.load(vkdata)
+
+SOCIAL_AUTH_VK_OAUTH2_KEY = VK['SOCIAL_AUTH_VK_OAUTH2_APPID']
+SOCIAL_AUTH_VK_OAUTH2_SECRET = VK['SOCIAL_AUTH_VK_OAUTH2_KEY']

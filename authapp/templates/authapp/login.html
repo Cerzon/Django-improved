@@ -1,10 +1,15 @@
 {% extends 'base.html' %}
 
 {% block page_content %}
-<form action="{% url 'authapp:login' %}" method="post" class='twc'>
+<form action="{% url 'authapp:login' %}" method="post" class="twc">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Войти" class="form-control">
 </form>
+<div class="twc">
+    <a href="{% url 'social:begin' 'vk-oauth2' %}?next=/" class="button-link form-control">
+        Войти через <i class="icon-vk-square"></i>
+    </a>
+</div>
 {% endblock page_content %}
     
