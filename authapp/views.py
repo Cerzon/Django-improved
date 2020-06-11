@@ -12,7 +12,8 @@ from django.template.loader import render_to_string
 from django.urls import reverse, reverse_lazy
 from django.utils.timezone import now
 from django.views.generic.edit import FormView, UpdateView, CreateView
-from .forms import UserRegisterForm, UserLoginForm, UserUpdateForm, UserVerifyForm
+from .forms import (UserRegisterForm, UserLoginForm, UserUpdateForm,
+                    UserVerifyForm, UserProfileEditForm)
 from .models import HoHooUser, Token
 
 # Create your views here.
@@ -75,10 +76,35 @@ class UserProfileEditView(LoginRequiredMixin, UpdateView):
         return HoHooUser.objects.get(username=self.request.user.username)
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['page_title'] = 'Редактирование данных пользователя ' + self.request.user.username
-        context['content_header'] = context['page_title']
-        return context
+        kwargs.update({
+            'page_title': 'Редактирование данных',
+            'content_header': 'Редактирование данных пользователя {}'.format(
+                self.object.username)
+        })
+        if 'profile_form' not in kwargs:
+            kwargs['profile_form'] = UserProfileEditForm(
+                instance=self.object.userprofile)
+        return super().get_context_data(**kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        profile_form = UserProfileEditForm(
+            initial=self.get_initial(),
+            data=request.POST,
+            instance=self.object.userprofile,
+        )
+        if form.is_valid() and profile_form.is_valid():
+            return self.form_valid(form, profile_form)
+        return self.form_invalid(form, profile_form)
+
+    def form_valid(self, form, profile_form):
+        profile_form.save()
+        return super().form_valid(form)
+
+    def form_invalid(self, form, profile_form):
+        return self.render_to_response(
+            self.get_context_data(form=form, profile_form=profile_form))
 
 
 class UserRegisterView(CreateView):

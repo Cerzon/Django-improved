@@ -3,6 +3,8 @@
 from datetime import timedelta
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.utils.timezone import now
 
 # Create your models here.
@@ -53,3 +55,27 @@ class Token(models.Model):
 
     def is_valid(self):
         return self.created + timedelta(days=5) > now()
+
+
+class UserProfile(models.Model):
+    PAY_CASH = 'cash'
+    PAY_CARD = 'card'
+    PAY_CHECK = 'chck'
+
+    PAYMENT_METHOD_CHOICES = (
+        (PAY_CASH, 'Оплата наличными',),
+        (PAY_CARD, 'Оплата банковской картой',),
+        (PAY_CHECK, 'Безналичная оплата',),
+    )
+
+    user = models.OneToOneField(HoHooUser, on_delete=models.CASCADE, primary_key=True)
+    payment = models.CharField(max_length=4, choices=PAYMENT_METHOD_CHOICES,
+                        blank=True, verbose_name='предпочтительный метод оплаты')
+    address = models.TextField(blank=True, verbose_name='адрес доставки')
+
+    @receiver(post_save, sender=HoHooUser)
+    def save_user_profile(sender, instance, created, *args, **kwargs):
+        if created:
+            UserProfile.objects.create(user=instance)
+        else:
+            instance.userprofile.save()

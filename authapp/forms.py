@@ -3,7 +3,7 @@
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 from django import forms
 from django.core import validators
-from .models import HoHooUser, Token
+from .models import HoHooUser, Token, UserProfile
 
 
 class UserLoginForm(AuthenticationForm):
@@ -100,6 +100,19 @@ class UserVerifyForm(forms.ModelForm):
     class Meta:
         model = Token
         fields = ('code',)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs['class'] = 'form-control'
+
+
+class UserProfileEditForm(forms.ModelForm):
+    required_css_class = 'required'
+
+    class Meta:
+        model = UserProfile
+        fields = ('payment', 'address',)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

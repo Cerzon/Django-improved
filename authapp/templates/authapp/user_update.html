@@ -4,6 +4,7 @@
 <form action="{% url 'authapp:edit' %}" method="post" enctype="multipart/form-data" class="twc">
     {% csrf_token %}
     {{ form.as_p }}
+    {{ profile_form.as_p }}
     <input type="submit" value="Сохранить" class="form-control">
 </form>
 {% endblock page_content %}
